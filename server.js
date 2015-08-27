@@ -32,7 +32,7 @@ const oa = new OAuth(
 );
 
 app.use((req, res, next) => {
-  if (hostURL.protocol == 'https:' && req.headers["x-forwarded-proto"] != 'https') {
+  if (hostURL.protocol === 'https:' && req.headers["x-forwarded-proto"] !== 'https') {
     return res.redirect(`https://${req.headers.host}${req.url}`);
   }
   next();
@@ -63,7 +63,9 @@ app.get('/', (req, res) => {
   });
   client.userInfo(function(err, data) {
     console.log(data);
-    res.render('index');
+    res.render('index', {
+      user: data.user
+    });
   });
 });
 
